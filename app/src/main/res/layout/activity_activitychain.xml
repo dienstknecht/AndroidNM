@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.constraint.Guideline
-        android:id="@+id/gch15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/gch20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20" />
 
     <android.support.constraint.Guideline
         android:id="@+id/gch30"
@@ -26,6 +13,20 @@
         app:layout_constraintGuide_percent="0.30" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/gch35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gch45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <android.support.constraint.Guideline
         android:id="@+id/gcv05"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,56 +34,56 @@
         app:layout_constraintGuide_percent="0.05" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/gcv80"
+        android:id="@+id/gcv85"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/gcv95"
+        android:id="@+id/gcv100"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="1" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/gch05"
+        android:id="@+id/gch20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.20" />
 
     <Button
         android:id="@+id/btPlus"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:drawable/ic_input_add"
-        android:backgroundTint="@color/plusButtonColor"
         android:textColor="@color/plusButtonTextColor"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/gch15"
-        app:layout_constraintLeft_toRightOf="@+id/gcv80"
-        app:layout_constraintRight_toLeftOf="@+id/gcv95"
-        app:layout_constraintTop_toBottomOf="@+id/gch05" />
+        app:layout_constraintBottom_toTopOf="@+id/gch30"
+        app:layout_constraintLeft_toRightOf="@+id/gcv85"
+        app:layout_constraintRight_toLeftOf="@+id/gcv100"
+        app:layout_constraintTop_toBottomOf="@+id/gch20"
+        app:showAsAction="always" />
 
     <Button
         android:id="@+id/btSave"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:drawable/ic_menu_save"
-        android:backgroundTint="@color/plusButtonColor"
         android:textColor="@color/saveButtonColor"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/gch30"
-        app:layout_constraintLeft_toRightOf="@+id/gcv80"
-        app:layout_constraintRight_toLeftOf="@+id/gcv95"
-        app:layout_constraintTop_toBottomOf="@+id/gch20" />
+        app:layout_constraintBottom_toTopOf="@+id/gch45"
+        app:layout_constraintLeft_toRightOf="@+id/gcv85"
+        app:layout_constraintRight_toLeftOf="@+id/gcv100"
+        app:layout_constraintTop_toBottomOf="@+id/gch35"
+        app:showAsAction="always" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/gcv75"
+        android:id="@+id/gcv80"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.80" />
 </android.support.constraint.ConstraintLayout>

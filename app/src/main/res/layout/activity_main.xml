@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/mainBackground">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -21,10 +22,9 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
-
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>
-
+    <include layout="@layout/content_main" />
     <android.support.constraint.Guideline
         android:id="@+id/gh05"
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/gh80"
         app:layout_constraintLeft_toRightOf="@+id/gcv05"
-        app:layout_constraintRight_toLeftOf="@+id/gcv95"
+        app:layout_constraintRight_toLeftOf="@+id/gcv100"
         app:layout_constraintTop_toBottomOf="@+id/gh05">
 
     </FrameLayout>
@@ -72,7 +72,7 @@
         app:layout_constraintGuide_percent="0.05" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/gcv95"
+        android:id="@+id/gcv100"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -87,7 +87,7 @@
         android:textColor="@color/saveButtonColor"
         app:layout_constraintBottom_toTopOf="@+id/gh95"
         app:layout_constraintLeft_toRightOf="@+id/gcv05"
-        app:layout_constraintRight_toLeftOf="@+id/gcv95"
+        app:layout_constraintRight_toLeftOf="@+id/gcv100"
         app:layout_constraintTop_toBottomOf="@+id/gh85" />
 
 </android.support.constraint.ConstraintLayout>

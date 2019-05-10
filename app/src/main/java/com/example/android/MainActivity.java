@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if(savedInstanceState==null){
             getSupportFragmentManager().beginTransaction().add(R.id.container, new ActivityChainFragment()).commit();
@@ -29,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         btStart.setOnClickListener(this::onClickPlus);
         Button btSave = findViewById(R.id.btSave);
         btStart.setOnClickListener(this::onClickSave);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     public void onClickStart(View v){
