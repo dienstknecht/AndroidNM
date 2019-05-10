@@ -28,20 +28,15 @@ public class MainActivity extends AppCompatActivity {
         Button btStart = findViewById(R.id.btStart);
         btStart.setOnClickListener(this::onClickStart);
         Button btPlus = findViewById(R.id.btPlus);
-        btStart.setOnClickListener(this::onClickPlus);
-        Button btSave = findViewById(R.id.btSave);
-        btStart.setOnClickListener(this::onClickSave);
     }
 
     public void onClickStart(View v){
-
-    }
-
-    public void onClickPlus(View v){
-
-    }
-
-    public void onClickSave(View v){
+        Button b = (Button) v;
+        if(b.getText().equals(getResources().getString(R.string.startButton))) {
+            b.setText(R.string.stopButton);
+        }else{
+            b.setText(R.string.startButton);
+        }
 
     }
 
@@ -53,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
+//            Button btPlus = getView().findViewById(R.id.btPlus);
+//            btPlus.setOnClickListener(this::onClickPlusButton);
+//            Button btSave = getView().findViewById(R.id.btSave);
+//            btSave.setOnClickListener(this::onClickSaveButton);
             return rootView;
         }
 

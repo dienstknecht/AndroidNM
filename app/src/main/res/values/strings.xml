@@ -2,6 +2,7 @@
     <string name="app_name">Android</string>
     <string name="label">Time to work out!</string>
     <string name="startButton">Start</string>
+    <string name="stopButton">Stop</string>
     <string name="plusButton">+</string>
     <string name="saveButton">Save</string>
     <string name="title_activity_main2">Main2Activity</string>
