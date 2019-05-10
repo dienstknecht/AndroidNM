@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
-//            Button btPlus = getView().findViewById(R.id.btPlus);
-//            btPlus.setOnClickListener(this::onClickPlusButton);
-//            Button btSave = getView().findViewById(R.id.btSave);
-//            btSave.setOnClickListener(this::onClickSaveButton);
+            Button btPlus = rootView.findViewById(R.id.btPlus);
+            btPlus.setOnClickListener(this::onClickPlusButton);
+            Button btSave = rootView.findViewById(R.id.btSave);
+            btSave.setOnClickListener(this::onClickSaveButton);
             return rootView;
         }
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onClickSaveButton(View v){
-
+            //Datenbankanbindung?
         }
     }
 
@@ -69,5 +70,9 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu, this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    public void onClickSettings(View v){
+        
     }
 }
