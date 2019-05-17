@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(savedInstanceState==null){
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new ActivityChainFragment()).commit();
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.container, new ActivityChainFragment()).commit();
         }
         Button btStart = findViewById(R.id.btStart);
         btStart.setOnClickListener(this::onClickStart);
@@ -35,17 +37,25 @@ public class MainActivity extends AppCompatActivity {
         Button b = (Button) v;
         if(b.getText().equals(getResources().getString(R.string.startButton))) {
             b.setText(R.string.stopButton);
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,new ActivityStartedFragment()).commit();
         }else{
             b.setText(R.string.startButton);
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,new ActivityChainFragment()).commit();
         }
 
     }
 
-    public static class ActivityChainFragment extends Fragment {
-        public ActivityChainFragment(){
-
+    public static class ActivityStartedFragment extends Fragment{
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+            View rootView = inflater.inflate(R.layout.activity_activitystarted,container,false);
+            return rootView;
         }
+    }
 
+    public static class ActivityChainFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
@@ -73,6 +83,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickSettings(View v){
-        
+
     }
 }
