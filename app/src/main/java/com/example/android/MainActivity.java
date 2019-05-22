@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Runner runner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             ActivityStartedFragment frag = new ActivityStartedFragment();
             fragmentTransaction.replace(R.id.container,frag).commit();
-            Runner runner = new Runner(3); 
-            runner.execute();
+            Runner runner = new Runner(3); //spaeter: Sekundenanzahl anhand der Elemente in der Liste berechnen und dort eintragen
+            runner.execute(); //AsyncTask runner stoppen, falls Stop gedrückt - aber wie? und neu starten, wenn wieder start!!
         }else{
+            runner.cancel(true);
             b.setText(R.string.startButton);
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,new ActivityChainFragment()).commit();
@@ -66,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void updateProgressBar(int percent){
+        ProgressBar pb = findViewById(R.id.pbhWorkout);
+        pb.setProgress(percent);
     }
 
     public static class ActivityChainFragment extends Fragment {
@@ -109,18 +117,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            long start = System.nanoTime();
-            long current = System.nanoTime();
-            while(current-start<seconds){
-                publishProgress((int)(((current-start)*100/seconds)));
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(!isCancelled()) {
+                long start = System.nanoTime();
+                long current = System.nanoTime();
+                while (current - start < seconds) {
+                    if (!isCancelled()) {
+                        publishProgress((int) (((current - start) * 100 / seconds)));
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        current = System.nanoTime();
+                    }
                 }
-                current=System.nanoTime();
+                publishProgress(100);
             }
-            publishProgress(100);
             return null;
         }
 
