@@ -12,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class ActivityChainFragment extends Fragment {
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             View rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
@@ -64,10 +69,22 @@ public class MainActivity extends AppCompatActivity {
             Button btSave = rootView.findViewById(R.id.btSave);
             btSave.setOnClickListener(this::onClickSaveButton);
             return rootView;
+
+            /*
+            ListView listView = (ListView)findViewById(R.id.listView);
+            ArrayList<String> arrayList = new ArrayList<String>();
+            arrayList.add("test");
+            arrayList.add("Niklas");
+            arrayList.add("Moritz");
+
+            ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity,android.R.layout.simple_list_item_1);
+
+            MlistView.setAdapter(arrayAdapter);
+            */
         }
 
         public void onClickPlusButton(View v){
-
+            //neues Element in der Liste hinzufügen
         }
 
         public void onClickSaveButton(View v){
