@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Button btStart = findViewById(R.id.btStart);
         btStart.setOnClickListener(this::onClickStart);
-        Button btPlus = findViewById(R.id.btPlus);
         workout=new ArrayList<>();
     }
 
@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
             btPlus.setOnClickListener(this::onClickPlusButton);
             Button btSave = rootView.findViewById(R.id.btSave);
             btSave.setOnClickListener(this::onClickSaveButton);
-
+            Button btMinus = rootView.findViewById(R.id.btMinus);
+            btMinus.setOnClickListener(this::onClickMinusButton);
 
 
             ListView listView = (ListView)rootView.findViewById(R.id.listView);
-            workout = new ArrayList<String>();
 
             arrayAdapter = new ArrayAdapter(this.getContext(),R.layout.custom_list_item,workout);
 
@@ -121,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.workout.add("Hinzufuegen");
             arrayAdapter.notifyDataSetChanged();
             //neues Element in der Liste hinzufügen
+        }
+
+        public void onClickMinusButton(View v){
+            if(workout.size()!=0) {
+                MainActivity.workout.remove(workout.size() - 1);
+                arrayAdapter.notifyDataSetChanged();
+            }
+            //letztes Element aus Liste entfernen --> vllt spaeter auswaehlbar machen, welches entfernt werden soll
         }
 
         public void onClickSaveButton(View v){
@@ -143,13 +151,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void publishProgress(int progress){
+    public void publishProgress(int progress,double seconds){
+        TextView tvsekunden = findViewById(R.id.tvSekunden);
         ProgressBar pb = findViewById(R.id.pbhWorkout);
-        if(pb==null){
-            Log.i("A","pb is null");
+        TextView tvWorkout = findViewById(R.id.tvWorkoutName);
+        if(pb==null||tvsekunden==null||tvWorkout==null){
+            Log.i("A","pb or tv is null");
             return;
         }
         pb.setProgress((1<<16)-progress);
+        tvsekunden.setText(String.valueOf((long)(seconds-progress/(1<<16))));
+        if(!MainActivity.workout.isEmpty()){
+            tvWorkout.setText(MainActivity.workout.get(0));
+        }
         if(pb.getProgress()==0) {
             Button b = findViewById(R.id.btStart);
             b.setText(getResources().getText(R.string.startButton));
@@ -179,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             this.start = System.nanoTime();
             long current = System.nanoTime();
             while (current - start + passed < seconds) {
-                Log.i("A", current - start + passed + "");
                 publishProgress((int) (((current - start+passed) * (1<<16) / (seconds))));
                 try {
                     Thread.sleep(1);
@@ -194,7 +207,8 @@ public class MainActivity extends AppCompatActivity {
 
         public void publishProgress(Integer... integers) {
             final int p = integers[0];
-            runOnUiThread(()-> MainActivity.this.publishProgress(p));
+            final double seconds = this.seconds/1e9-(System.nanoTime()-start)/1e9+1;
+            runOnUiThread(()-> MainActivity.this.publishProgress(p,seconds));
         }
 
     }

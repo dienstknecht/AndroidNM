@@ -4,14 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.constraint.Guideline
-        android:id="@+id/gsh10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
+    android:layout_height="match_parent"
+    >
 
     <android.support.constraint.Guideline
         android:id="@+id/gsh90"
@@ -46,5 +40,85 @@
         app:layout_constraintLeft_toRightOf="@+id/gsv05"
         app:layout_constraintRight_toLeftOf="@+id/gsv95"
         app:layout_constraintTop_toBottomOf="@+id/gsh10" />
+
+    <TextView
+        android:id="@+id/tvSekunden"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="72sp"
+        app:layout_constraintBottom_toTopOf="@+id/gsh67"
+        app:layout_constraintLeft_toRightOf="@+id/gsv25"
+        app:layout_constraintRight_toLeftOf="@+id/gsv75"
+        app:layout_constraintTop_toBottomOf="@+id/gsh37" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsh37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.37" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsh67"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.67" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsv25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsv75"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsh10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsh20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <TextView
+        android:id="@+id/tvWorkoutName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/gsh20"
+        app:layout_constraintLeft_toRightOf="@+id/gsv0"
+        app:layout_constraintRight_toLeftOf="@+id/gsv100"
+        app:layout_constraintTop_toBottomOf="@+id/gsh10" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsv0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gsv100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1" />
 
 </android.support.constraint.ConstraintLayout>
