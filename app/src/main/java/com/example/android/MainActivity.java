@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
 //                    runner.execute();//AsyncTask runner stoppen, falls Stop gedrückt - aber wie? und neu starten, wenn wieder start!!
 //                }
 //            }
-            runner = new Runner(3);
-            runner.execute();
-
+            runner = new Runner(10);
+            runner.start();
         }else{
-            runner.cancel(true);
+            runner.interrupt();
+
             b.setText(R.string.startButton);
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,new ActivityChainFragment()).commit();
@@ -128,52 +128,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startWorkoutThread(){
-        Thread t = new Thread(()->{
-            
 
-        }).start();;
     }
 
-    public class Runner extends AsyncTask<Void,Integer,Void>{
+    public void publishProgress(int progress){
+        ProgressBar pb = findViewById(R.id.pbhWorkout);
+        if(pb==null){
+            Log.i("A","pb is null");
+            return;
+        }
+        pb.setProgress((1<<16)-progress);
+        if(pb.getProgress()==0) {
+            Button b = findViewById(R.id.btStart);
+            b.setText(getResources().getText(R.string.startButton));
+            //Textview erstellen und in der Mitte der ProgressBar platzieren, Counter ablaufen lassen
+            //Name der Aktivitaet ueber ProgressBar anzeigen
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ActivityChainFragment()).commit();
+        }
+    }
+    public class Runner extends Thread {
 
+        private long passed=0;
         private final long seconds;
+        private long start;
 
-        public Runner(long seconds){
-            this.seconds = (long)(seconds*1e9);
+        public Runner(long seconds) {
+            this.seconds = (long) (seconds * 1e9);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            if(!isCancelled()) {
-                long start = System.nanoTime();
-                long current = System.nanoTime();
-                while (current - start < seconds) {
-                    if (!isCancelled()) {
-                        publishProgress((int) (((current - start) * 100 / (seconds))));
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        current = System.nanoTime();
-                    }
+        public void interrupt(){
+            super.interrupt();
+            passed=System.nanoTime()-start;
+        }
+
+        @Override
+        public void run() {
+            this.start = System.nanoTime();
+            long current = System.nanoTime();
+            while (current - start + passed < seconds) {
+                Log.i("A", current - start + passed + "");
+                publishProgress((int) (((current - start+passed) * (1<<16) / (seconds))));
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return;
                 }
-                publishProgress(100);
+                current = System.nanoTime();
             }
-            return null;
+            publishProgress(1<<16);
         }
 
-        @Override
-        public void onProgressUpdate(Integer... integers){
-            ProgressBar pb = findViewById(R.id.pbhWorkout);
-            pb.setProgress(100-integers[0],true);
-            if(pb.getProgress()==0){
-                Button b = findViewById(R.id.btStart);
-                b.setText(getResources().getText(R.string.startButton));
-                //Textview erstellen und in der Mitte der ProgressBar platzieren, Counter ablaufen lassen
-                //Name der Aktivitaet ueber ProgressBar anzeigen
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,new ActivityChainFragment()).commit();
-            }
+        public void publishProgress(Integer... integers) {
+            final int p = integers[0];
+            runOnUiThread(()-> MainActivity.this.publishProgress(p));
         }
+
     }
 }

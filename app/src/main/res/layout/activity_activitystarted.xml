@@ -36,12 +36,12 @@
 
     <ProgressBar
         android:id="@+id/pbhWorkout"
-        android:max="100"
+        android:max="65536"
         style="?android:attr/progressBarStyleHorizontal"
         android:progressDrawable="@drawable/circle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:progress="100"
+        android:progress="65536"
         app:layout_constraintBottom_toTopOf="@+id/gsh90"
         app:layout_constraintLeft_toRightOf="@+id/gsv05"
         app:layout_constraintRight_toLeftOf="@+id/gsv95"
