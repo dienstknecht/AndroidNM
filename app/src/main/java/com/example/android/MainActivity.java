@@ -26,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int secondsRunning;
 
-    public static List<ListElement> workout;
+    public static List<String> workout;
     private Runner runner;
+    private static ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,24 +104,22 @@ public class MainActivity extends AppCompatActivity {
             btPlus.setOnClickListener(this::onClickPlusButton);
             Button btSave = rootView.findViewById(R.id.btSave);
             btSave.setOnClickListener(this::onClickSaveButton);
+
+
+
+            ListView listView = (ListView)rootView.findViewById(R.id.listView);
+            workout = new ArrayList<String>();
+
+            arrayAdapter = new ArrayAdapter(this.getContext(),android.R.layout.simple_list_item_1,workout);
+
+            listView.setAdapter(arrayAdapter);
+            arrayAdapter.notifyDataSetChanged();
             return rootView;
-
-            /*
-            ListView listView = (ListView)findViewById(R.id.listView);
-            ArrayList<String> arrayList = new ArrayList<String>();
-            arrayList.add("test");
-            arrayList.add("Niklas");
-            arrayList.add("Moritz");
-
-            ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity,android.R.layout.simple_list_item_1);
-
-            MlistView.setAdapter(arrayAdapter);
-            */
         }
 
         public void onClickPlusButton(View v){
-            ListElement element = new ListElement();
-            MainActivity.workout.add(element);
+            MainActivity.workout.add("Hinzufuegen");
+            arrayAdapter.notifyDataSetChanged();
             //neues Element in der Liste hinzufügen
         }
 
