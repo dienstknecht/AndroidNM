@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             ListView listView = (ListView)rootView.findViewById(R.id.listView);
             workout = new ArrayList<String>();
 
-            arrayAdapter = new ArrayAdapter(this.getContext(),android.R.layout.simple_list_item_1,workout);
+            arrayAdapter = new ArrayAdapter(this.getContext(),R.layout.custom_list_item,workout);
 
             listView.setAdapter(arrayAdapter);
             arrayAdapter.notifyDataSetChanged();
