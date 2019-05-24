@@ -19,8 +19,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
+    private int secondsRunning;
+
+    public static List<ListElement> workout;
     private Runner runner;
 
     @Override
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Button btStart = findViewById(R.id.btStart);
         btStart.setOnClickListener(this::onClickStart);
         Button btPlus = findViewById(R.id.btPlus);
+        workout=new ArrayList<>();
     }
 
     public void onClickStart(View v){
@@ -46,8 +53,16 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             ActivityStartedFragment frag = new ActivityStartedFragment();
             fragmentTransaction.replace(R.id.container,frag).commit();
-            Runner runner = new Runner(3); //spaeter: Sekundenanzahl anhand der Elemente in der Liste berechnen und dort eintragen
-            runner.execute(); //AsyncTask runner stoppen, falls Stop gedrückt - aber wie? und neu starten, wenn wieder start!!
+//            for(ListElement element :workout){
+//                for(int i = 0;i<element.getSets();i++){
+//                    int dauer = element.getDurationSeconds();
+//                    Runner runner = new Runner(3); //spaeter: Sekundenanzahl anhand der Elemente in der Liste berechnen und dort eintragen
+//                    runner.execute();//AsyncTask runner stoppen, falls Stop gedrückt - aber wie? und neu starten, wenn wieder start!!
+//                }
+//            }
+            runner = new Runner(3);
+            runner.execute();
+
         }else{
             runner.cancel(true);
             b.setText(R.string.startButton);
@@ -77,9 +92,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class ActivityChainFragment extends Fragment {
+
+        private View rootView;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
+            rootView = inflater.inflate(R.layout.activity_activitychain,container,false);
             Button btPlus = rootView.findViewById(R.id.btPlus);
             btPlus.setOnClickListener(this::onClickPlusButton);
             Button btSave = rootView.findViewById(R.id.btSave);
@@ -88,11 +106,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onClickPlusButton(View v){
-
+            ListElement element = new ListElement();
+            MainActivity.workout.add(element);
         }
 
         public void onClickSaveButton(View v){
             //Datenbankanbindung?
+
         }
     }
 
@@ -107,12 +127,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void startWorkoutThread(){
+        Thread t = new Thread(()->{
+            
+
+        }).start();;
+    }
+
     public class Runner extends AsyncTask<Void,Integer,Void>{
 
         private final long seconds;
 
-        public Runner(int seconds){
-            this.seconds = (long) (seconds*1e9);
+        public Runner(long seconds){
+            this.seconds = (long)(seconds*1e9);
         }
 
         @Override
@@ -122,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 long current = System.nanoTime();
                 while (current - start < seconds) {
                     if (!isCancelled()) {
-                        publishProgress((int) (((current - start) * 100 / seconds)));
+                        publishProgress((int) (((current - start) * 100 / (seconds))));
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
