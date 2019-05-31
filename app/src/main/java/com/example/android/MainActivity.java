@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int secondsRunning;
 
-    public static List<String> workout;
+    public static List<ListItem> workout;
     private Runner runner;
     private static ArrayAdapter arrayAdapter;
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             ListView listView = (ListView)rootView.findViewById(R.id.listView);
 
-            arrayAdapter = new ArrayAdapter(this.getContext(),R.layout.custom_list_item,workout);
+            arrayAdapter = new MyListAdapter(this.getContext(),R.layout.custom_list_item,workout);
 
             listView.setAdapter(arrayAdapter);
             arrayAdapter.notifyDataSetChanged();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox){
-            MainActivity.workout.add(titleBox.getText().toString());
+            MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString())));
             arrayAdapter.notifyDataSetChanged();
         }
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.workout.add(titleBox.getText().toString());
+                            MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString())));
                             arrayAdapter.notifyDataSetChanged();
                         }
                     })
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
         pb.setProgress((1<<16)-progress);
         tvsekunden.setText(String.valueOf((long)(seconds-progress/(1<<16))));
         if(!MainActivity.workout.isEmpty()){
-            tvWorkout.setText(MainActivity.workout.get(0));
+            tvWorkout.setText(MainActivity.workout.get(0).getName());
         }
         if(pb.getProgress()==0) {
             Button b = findViewById(R.id.btStart);
