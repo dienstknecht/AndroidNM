@@ -1,5 +1,8 @@
 package com.example.android;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -117,9 +122,43 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
 
-        public void onClickPlusButton(View v){
-            MainActivity.workout.add("Hinzufuegen");
+        public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox){
+            MainActivity.workout.add(titleBox.getText().toString());
             arrayAdapter.notifyDataSetChanged();
+        }
+
+        public void onClickCancelButton(View v, EditText titleBox, EditText desriptionBox){
+
+        }
+
+        public void onClickPlusButton(View v){
+            LayoutInflater inflater = getLayoutInflater();
+            LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_addworkout,null);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+// Add a TextView here for the "Title" label, as noted in the comments
+            final EditText titleBox = layout.findViewById(R.id.etworkoutname);
+            // Notice this is an add method
+
+// Add another TextView here for the "Description" label
+            final EditText descriptionBox = layout.findViewById(R.id.etseconds);
+            // Another add method
+            AlertDialog.Builder dialog=new AlertDialog.Builder(getContext())
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MainActivity.workout.add(titleBox.getText().toString());
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            dialog.setView(layout);// Again this is a set method, not add
+            dialog.show();
             //neues Element in der Liste hinzufügen
         }
 
