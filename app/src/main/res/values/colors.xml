@@ -2,9 +2,9 @@
 <resources>
     <color name="colorPrimary">#67BEC2</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF0400</color>
     <color name="plusButtonColor">@color/colorPrimary</color>
-    <color name="plusButtonTextColor">#ffffff</color>
+    <color name="plusButtonTextColor">#FFFFFF</color>
     <color name="saveButtonColor">#ffffff</color>
     <color name="mainBackground">#2b2b2b</color>
 </resources>
