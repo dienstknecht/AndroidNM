@@ -122,13 +122,18 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
 
-        public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox){
+        public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox,AlertDialog dialog){
+            if(titleBox.getText().toString().equals("")||descriptionBox.getText().toString().equals("")){
+                dialog.dismiss();
+                return;
+            }
             MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString())));
             arrayAdapter.notifyDataSetChanged();
+            dialog.dismiss();
         }
 
-        public void onClickCancelButton(View v, EditText titleBox, EditText desriptionBox){
-
+        public void onClickCancelButton(View v, EditText titleBox, EditText desriptionBox,AlertDialog dialog){
+            dialog.dismiss();
         }
 
         public void onClickPlusButton(View v){
@@ -143,22 +148,14 @@ public class MainActivity extends AppCompatActivity {
 // Add another TextView here for the "Description" label
             final EditText descriptionBox = layout.findViewById(R.id.etseconds);
             // Another add method
-            AlertDialog.Builder dialog=new AlertDialog.Builder(getContext())
-                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString())));
-                            arrayAdapter.notifyDataSetChanged();
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-            dialog.setView(layout);// Again this is a set method, not add
-            dialog.show();
+            AlertDialog.Builder dialog=new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Light_Dialog_Alert);
+            dialog.setView(layout);
+            // Again this is a set method, not add
+            AlertDialog alertDialog = dialog.show();
+            Button btOkay = layout.findViewById(R.id.btOkay);
+            btOkay.setOnClickListener((view)->onClickOkayButton(view,titleBox,descriptionBox,alertDialog));
+            Button btCancel = layout.findViewById(R.id.btCancel);
+            btCancel.setOnClickListener((view)->onClickCancelButton(view,titleBox,descriptionBox,alertDialog));
             //neues Element in der Liste hinzufügen
         }
 
