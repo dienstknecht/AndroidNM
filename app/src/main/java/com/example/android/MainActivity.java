@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox,AlertDialog dialog){
             if(titleBox.getText().toString().equals("")||descriptionBox.getText().toString().equals("")){
+                Toast.makeText(this.getContext(),"please specify a workout name and a duration",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 return;
             }
@@ -255,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             this.start = System.nanoTime();
             long current = System.nanoTime();
-            while (current - start + passed < seconds) {
+            while (current - start + passed < seconds&&!Thread.currentThread().isInterrupted()) {
                 publishProgress((int) (((current - start+passed) * (1<<16) / (seconds))));
                 try {
                     Thread.sleep(1);
