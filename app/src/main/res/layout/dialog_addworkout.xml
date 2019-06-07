@@ -17,10 +17,14 @@
         android:layout_marginBottom="4dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#888888"
+        android:backgroundTint="@color/colorPrimary"
+        android:textCursorDrawable="@null"
         android:hint="@string/workoutname" />
     <EditText
         android:id="@+id/etseconds"
+        android:textCursorDrawable="@null"
         android:inputType="number"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -39,16 +43,18 @@
 
         <Button
             android:id="@+id/btCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/mainBackground"
             android:text="@string/cancel"
             android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/btOkay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/mainBackground"
             android:text="@string/okay"
             android:textColor="@color/colorPrimary" />

@@ -6,8 +6,9 @@
     <string name="plusButton">+</string>
     <string name="saveButton">Save</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="seconds">seconds</string>
+    <string name="seconds">duration</string>
     <string name="workoutname">workout name</string>
-    <string name="cancel">cancel</string>
-    <string name="okay">okay</string>
+    <string name="cancel">Cancel</string>
+    <string name="okay">Okay</string>
+    <string name="delete">Delete</string>
 </resources>

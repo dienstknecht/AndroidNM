@@ -1,11 +1,7 @@
 package com.example.android;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -23,18 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int secondsRunning;
-
-    public static List<ListItem> workout;
-    private Runner runner;
+    public static ArrayList<ListItem> workout;
     private static ArrayAdapter arrayAdapter;
+    private boolean finished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,29 +48,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickStart(View v){
+        ExecutorService e = Executors.newSingleThreadExecutor();
         Button b = (Button) v;
+        ArrayList<ListItem> workout2 = new ArrayList<>();
+        workout2.addAll(workout);
         if(b.getText().equals(getResources().getString(R.string.startButton))) {
+            finished=false;
             b.setText(R.string.stopButton);
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             ActivityStartedFragment frag = new ActivityStartedFragment();
             fragmentTransaction.replace(R.id.container,frag).commit();
-//            for(ListElement element :workout){
-//                for(int i = 0;i<element.getSets();i++){
-//                    int dauer = element.getDurationSeconds();
-//                    Runner runner = new Runner(3); //spaeter: Sekundenanzahl anhand der Elemente in der Liste berechnen und dort eintragen
-//                    runner.execute();//AsyncTask runner stoppen, falls Stop gedrückt - aber wie? und neu starten, wenn wieder start!!
-//                }
-//            }
-            runner = new Runner(10);
-            runner.start();
+            List<Runner> runners = new ArrayList<>();
+            for(int i = 0;i<workout.size();i++){
+                runners.add(new Runner(workout.get(i).getDuration()));
+            }
+            for(Runner r : runners) {
+                e.submit(r);
+            }
+            e.submit(new Runnable() {
+                @Override
+                public void run() {
+                    workout=workout2;
+                    finished=true;
+                }
+            });
+            //Wieder hinzufuegen von workout-items in die liste nach ausfuehrung, und stopp-start fixen
         }else{
-            runner.interrupt();
-
+            e.submit(new Runnable() {
+                @Override
+                public void run() {
+                    workout=workout2;
+                    finished=true;
+                }
+            });
+            e.shutdownNow();
             b.setText(R.string.startButton);
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,new ActivityChainFragment()).commit();
         }
-
     }
 
     public static class ActivityStartedFragment extends Fragment{
@@ -88,14 +98,6 @@ public class MainActivity extends AppCompatActivity {
             this.rootView=rootView;
             return rootView;
         }
-
-
-
-    }
-
-    public void updateProgressBar(int percent){
-        ProgressBar pb = findViewById(R.id.pbhWorkout);
-        pb.setProgress(percent);
     }
 
     public static class ActivityChainFragment extends Fragment {
@@ -159,12 +161,38 @@ public class MainActivity extends AppCompatActivity {
             //neues Element in der Liste hinzufügen
         }
 
-        public void onClickMinusButton(View v){
-            if(workout.size()!=0) {
-                MainActivity.workout.remove(workout.size() - 1);
+        public void onClickMinusButton(View v) {
+            if (!workout.isEmpty()) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                builder.setTitle("Are you sure you want to delete your workout?");
+
+                //if the response is positive in the alert
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //removing the item
+                        workout.clear();
+
+                        //reloading the list
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                //if response is negative nothing is being done
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                //creating and displaying the alert dialog
+                android.support.v7.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
                 arrayAdapter.notifyDataSetChanged();
             }
-            //letztes Element aus Liste entfernen --> vllt spaeter auswaehlbar machen, welches entfernt werden soll
         }
 
         public void onClickSaveButton(View v){
@@ -183,10 +211,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void startWorkoutThread(){
-
-    }
-
     public void publishProgress(int progress,double seconds){
         TextView tvsekunden = findViewById(R.id.tvSekunden);
         ProgressBar pb = findViewById(R.id.pbhWorkout);
@@ -200,7 +224,10 @@ public class MainActivity extends AppCompatActivity {
         if(!MainActivity.workout.isEmpty()){
             tvWorkout.setText(MainActivity.workout.get(0).getName());
         }
-        if(pb.getProgress()==0) {
+        if(pb.getProgress()==0&&!finished){
+            workout.remove(0);
+        }
+        if(pb.getProgress()==0&&finished) {
             Button b = findViewById(R.id.btStart);
             b.setText(getResources().getText(R.string.startButton));
             //Textview erstellen und in der Mitte der ProgressBar platzieren, Counter ablaufen lassen
@@ -246,6 +273,5 @@ public class MainActivity extends AppCompatActivity {
             final double seconds = this.seconds/1e9-(System.nanoTime()-start)/1e9+1;
             runOnUiThread(()-> MainActivity.this.publishProgress(p,seconds));
         }
-
     }
 }
