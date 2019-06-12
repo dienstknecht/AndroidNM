@@ -54,6 +54,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
 
         //getting the view elements of the list from the view
         TextView textViewName = view.findViewById(R.id.tvItemName);
+        TextView tvSeconds = view.findViewById(R.id.tvItemSeconds);
         Button buttonDelete = view.findViewById(R.id.buttonDelete);
 
         //getting the hero of the specified position
@@ -61,6 +62,7 @@ public class MyListAdapter extends ArrayAdapter<ListItem> {
 
         //adding values to the list item
         textViewName.setText(item.getName());
+        tvSeconds.setText(String.valueOf(item.getDuration()));
 
         //adding a click listener to the button to remove item from the list
         buttonDelete.setOnClickListener(new View.OnClickListener() {
