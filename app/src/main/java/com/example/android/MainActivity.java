@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Button btStart = findViewById(R.id.btStart);
         btStart.setOnClickListener(this::onClickStart);
+        //TODO Liste aus DB laden
         workout=new ArrayList<>();
     }
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,new ActivityChainFragment()).commit();
         }
+
     }
 
     public static class ActivityStartedFragment extends Fragment{
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public static class ActivityChainFragment extends Fragment {
 
         private View rootView;
+        long itemId;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -122,16 +125,22 @@ public class MainActivity extends AppCompatActivity {
 
             listView.setAdapter(arrayAdapter);
             arrayAdapter.notifyDataSetChanged();
+            if(workout.isEmpty()) {
+                itemId=0;
+            }
+            else{
+                itemId = workout.get(workout.size()-1).getId();
+            }
             return rootView;
         }
 
         public void onClickOkayButton(View v,EditText titleBox, EditText descriptionBox,AlertDialog dialog){
-            if(titleBox.getText().toString().equals("")||descriptionBox.getText().toString().equals("")){
-                Toast.makeText(this.getContext(),"please specify a workout name and a duration",Toast.LENGTH_SHORT).show();
+            if(titleBox.getText().toString().equals("")||descriptionBox.getText().toString().equals("")) {
+                Toast.makeText(this.getContext(), "please specify a workout name and a duration", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 return;
             }
-            MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString())));
+            MainActivity.workout.add(new ListItem(titleBox.getText().toString(), Integer.parseInt(descriptionBox.getText().toString()),itemId));
             arrayAdapter.notifyDataSetChanged();
             dialog.dismiss();
         }
@@ -275,5 +284,7 @@ public class MainActivity extends AppCompatActivity {
             final double seconds = this.seconds/1e9-(System.nanoTime()-start)/1e9+1;
             runOnUiThread(()-> MainActivity.this.publishProgress(p,seconds));
         }
+
     }
+
 }
