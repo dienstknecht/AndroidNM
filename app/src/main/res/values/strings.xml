@@ -11,4 +11,7 @@
     <string name="cancel">Cancel</string>
     <string name="okay">Okay</string>
     <string name="delete">Delete</string>
+    <string name="menuSettings">Settings</string>
+    <string name="menuLoad">Load Workout</string>
+    <string name="menuAbout">About</string>
 </resources>
