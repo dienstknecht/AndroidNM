@@ -14,4 +14,5 @@
     <string name="menuSettings">Settings</string>
     <string name="menuLoad">Load Workout</string>
     <string name="menuAbout">About</string>
+    <string name="menuHome">Home</string>
 </resources>
