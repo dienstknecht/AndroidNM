@@ -4,10 +4,9 @@
 
     <item
         android:id="@+id/action_settings"
-        android:title="settings"
-        android:icon="@drawable/ic_more_vert_white_48dp"
-        android:iconTint="@color/saveButtonColor"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
+        android:title="Settings" />
+    <item
+        android:id="@+id/action_load"
+        android:title="Load Workout" />
 
 </menu>

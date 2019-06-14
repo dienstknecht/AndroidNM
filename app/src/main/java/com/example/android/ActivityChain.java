@@ -21,7 +21,6 @@ public class ActivityChain extends Fragment {
 
     public void onClickSaveButton(View v) {
 
-
     }
 
     @Override
