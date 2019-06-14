@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<ListItem> workout;
     private static ArrayAdapter arrayAdapter;
     private boolean finished;
+    private ListItemDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         btStart.setOnClickListener(this::onClickStart);
         //TODO Liste aus DB laden
         workout=new ArrayList<>();
+
+        ListItem testItem = new ListItem("Test",5,912837);
+        dataSource=new ListItemDataSource(this);
     }
 
     public void onClickStart(View v){
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 itemId=0;
             }
             else{
-                itemId = workout.get(workout.size()-1).getId();
+                itemId = workout.get(workout.size()-1).getId()+1;
             }
             return rootView;
         }
